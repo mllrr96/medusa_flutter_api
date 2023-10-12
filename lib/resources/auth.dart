@@ -4,18 +4,16 @@ import 'package:dio/dio.dart';
 import 'package:medusa_flutter/models/req/store_post_auth_req.dart';
 import 'package:medusa_flutter/models/res/auth.dart';
 import 'package:medusa_flutter/resources/base.dart';
+import 'package:multiple_result/multiple_result.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../models/res/auth.dart';
+import '../models/common/failure.dart';
 
 class AuthResource extends BaseResource {
   AuthResource(super.client);
 
-  /// @description Authenticates a customer using email and password combination
-  /// @param {StorePostAuthReq} payload authentication payload
-  /// @param customHeaders
-  /// @return {ResponsePromise<StoreAuthRes>}
-  Future<StoreAuthRes?> authenticate(
+  /// Authenticates a customer using email and password combination
+  Future<Result<StoreAuthRes, Failure>> authenticate(
       {StorePostAuthReq? req, Map<String, dynamic>? customHeaders}) async {
     try {
       if (customHeaders != null) {
@@ -26,19 +24,18 @@ class AuthResource extends BaseResource {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         var cookie = response.headers['set-cookie']!.first.split(';').first;
         prefs.setString('Cookie', cookie);
-        return StoreAuthRes.fromJson(response.data);
+        return Success(StoreAuthRes.fromJson(response.data));
       } else {
-        throw response.statusCode!;
+        return Error(Failure.from(response));
       }
     } catch (error, stackTrace) {
       log(error.toString(), stackTrace: stackTrace);
-      rethrow;
+      return Error(Failure.from(error));
     }
   }
 
-  /// @description Removes authentication session
-  /// @return {ResponsePromise<void>}
-  Future<void> deleteSession({Map<String, dynamic>? customHeaders}) async {
+  /// Removes authentication session
+  Future<bool> deleteSession({Map<String, dynamic>? customHeaders}) async {
     try {
       if (customHeaders != null) {
         client.options.headers.addAll(customHeaders);
@@ -47,21 +44,19 @@ class AuthResource extends BaseResource {
         '/store/auth',
       );
       if (response.statusCode == 200) {
-        return response.data;
+        return true;
       } else {
-        throw response.statusCode!;
+        return false;
       }
     } catch (error) {
       log(error.toString());
+      return false;
     }
   }
 
-  /// @description Retrieves an authenticated session
+  /// Retrieves an authenticated session
   /// Usually used to check if authenticated session is alive.
-  /// @param customHeaders
-  /// @return {ResponsePromise<StoreAuthRes>}
-  Future<StoreAuthRes?> getSession(
-      {Map<String, dynamic>? customHeaders}) async {
+  Future<Result<StoreAuthRes, Failure>> getSession({Map<String, dynamic>? customHeaders}) async {
     try {
       if (customHeaders != null) {
         client.options.headers.addAll(customHeaders);
@@ -70,20 +65,18 @@ class AuthResource extends BaseResource {
         '/store/auth',
       );
       if (response.statusCode == 200) {
-        return response.data;
+        return Success(StoreAuthRes.fromJson(response.data));
       } else {
-        throw response.statusCode!;
+        return Error(Failure.from(response));
       }
     } catch (error) {
       log(error.toString());
+      return Error(Failure.from(error));
     }
   }
 
-  /// @description Check if email exists
-  /// @param {string} email is required
-  /// @param customHeaders
-  /// @return {ResponsePromise<StoreGetAuthEmailRes>}
-  Future<StoreGetAuthEmailRes?> exists(
+  /// Check if email exists
+  Future<Result<StoreGetAuthEmailRes, Failure>> emailExists(
       {required String email, Map<String, dynamic>? customHeaders}) async {
     try {
       if (customHeaders != null) {
@@ -93,12 +86,13 @@ class AuthResource extends BaseResource {
         '/store/auth/$email',
       );
       if (response.statusCode == 200) {
-        return StoreGetAuthEmailRes.fromJson(response.data);
+        return Success(StoreGetAuthEmailRes.fromJson(response.data));
       } else {
-        throw response.statusCode!;
+        return Error(Failure.from(response));
       }
     } catch (error) {
       log(error.toString());
+      return Error(Failure.from(error));
     }
   }
 }

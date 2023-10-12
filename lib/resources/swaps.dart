@@ -1,41 +1,29 @@
-import 'dart:developer';
-
+import 'package:medusa_flutter/medusa_flutter.dart';
 import 'package:medusa_flutter/resources/base.dart';
-
-import '../models/req/store_post_swaps_req.dart';
-import '../models/res/swaps.dart';
+import 'package:multiple_result/multiple_result.dart';
 
 class SwapsResource extends BaseResource {
   SwapsResource(super.client);
 
-  /// @description Creates a swap from a cart
-  /// @param {StorePostSwapsReq} payload
-  /// @param customHeaders
-  /// @return {ResponsePromise<StoreSwapsRes>}
-  Future<StoreSwapsRes?> create(
-      {StorePostSwapsReq? req, Map<String, dynamic>? customHeaders}) async {
+  /// Creates a swap from a cart
+  Future<Result<StoreSwapsRes, Failure>> create({StorePostSwapsReq? req, Map<String, dynamic>? customHeaders}) async {
     try {
       if (customHeaders != null) {
         client.options.headers.addAll(customHeaders);
       }
-      final response =
-          await client.post('/store/swaps', data: req);
+      final response = await client.post('/store/swaps', data: req);
       if (response.statusCode == 200) {
-        return StoreSwapsRes.fromJson(response.data);
+        return Success(StoreSwapsRes.fromJson(response.data));
       } else {
-        throw response.statusCode!;
+        return Error(Failure.from(response));
       }
-    } catch (error,stackTrace) {
-      log(error.toString(),stackTrace:stackTrace);
-      rethrow;
+    } catch (e) {
+      return Error(Failure.from(e));
     }
   }
 
-  /// @description Retrieves a swap by cart id
-  /// @param {string} cart_id id of cart
-  /// @param customHeaders
-  /// @return {ResponsePromise<StoreSwapsRes>}
-  Future<StoreSwapsRes?> retrieveByCartId(
+  /// Retrieves a swap by cart id
+  Future<Result<StoreSwapsRes, Failure>> retrieveByCartId(
       {required String cartId, Map<String, dynamic>? customHeaders}) async {
     try {
       if (customHeaders != null) {
@@ -45,13 +33,12 @@ class SwapsResource extends BaseResource {
         '/store/swaps/$cartId',
       );
       if (response.statusCode == 200) {
-        return StoreSwapsRes.fromJson(response.data);
+        return Success(StoreSwapsRes.fromJson(response.data));
       } else {
-        throw response.statusCode!;
+        return Error(Failure.from(response));
       }
-    } catch (error,stackTrace) {
-      log(error.toString(),stackTrace:stackTrace);
-      rethrow;
+    } catch (e) {
+      return Error(Failure.from(e));
     }
   }
 }

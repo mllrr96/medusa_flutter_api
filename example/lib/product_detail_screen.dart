@@ -77,9 +77,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
   Future<void> _addProductInCart() async {
     try {
-      SnackBar addCartProgress = SnackBar(
+      SnackBar addCartProgress = const SnackBar(
           content: Row(
-        children: const [
+        children: [
           CircularProgressIndicator(),
           SizedBox(
             width: 10,
@@ -90,22 +90,22 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       ScaffoldMessenger.of(context).showSnackBar(addCartProgress);
       StoreRegionsListRes? regionRes = await medusa.regions.list();
       if (regionRes != null) {
-        StoreCartsRes? result = await medusa.carts.create(
+        final result = await medusa.carts.create(
             req: StorePostCartReq(items: [
           Item(variantId: widget.product.variants?[0].id, quantity: 1)
         ], regionId: regionRes.regions?.first.id));
 
         ScaffoldMessenger.of(context).hideCurrentSnackBar();
-        if (result != null) {
+        result.when((success) {
           _isItemAlreadyInCart = true;
           setState(() {});
           ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
             content: Text("Item added to cart"),
             duration: Duration(seconds: 3),
           ));
-        } else {
+        }, (error) {
           throw "Something went wrong!";
-        }
+        });
       } else {
         throw "Region not exists";
       }
