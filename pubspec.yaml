@@ -1,7 +1,7 @@
 name: medusa_flutter
 description: A package for the REST APIs for Medusa.
 version: 0.0.2
-homepage:
+publish_to: none
 
 environment:
   sdk: ">=2.17.6 <3.0.0"
