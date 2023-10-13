@@ -41,7 +41,7 @@ class CustomShippingOption {
     createdAt = DateTime.tryParse(json['created_at'] ?? '');
     updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
     deletedAt = DateTime.tryParse(json['deleted_at'] ?? '');
-    metadata = json['metadata'] ?? {};
+    metadata = json['metadata'] ;
   }
 
   Map<String, dynamic> toJson() {
@@ -49,9 +49,9 @@ class CustomShippingOption {
     json['id'] = id;
     json['price'] = price;
     json['shipping_option_id'] = shippingOptionId;
-    json['shipping_option'] = shippingOption?.toJson() ?? {};
+    json['shipping_option'] = shippingOption?.toJson() ;
     json['cart_id'] = cartId;
-    json['cart'] = cart?.toJson() ?? {};
+    json['cart'] = cart?.toJson() ;
     json['include_tax'] = includeTax;
     json['created_at'] = createdAt.toString();
     json['updated_at'] = updatedAt.toString();

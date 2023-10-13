@@ -1,17 +1,17 @@
-class StorePostCartsCartPaymentSessionUpdateReqdata {
+class StorePostCartsCartPaymentSessionUpdateReqData {
   Map<String, dynamic>? data;
 
-  StorePostCartsCartPaymentSessionUpdateReqdata({
+  StorePostCartsCartPaymentSessionUpdateReqData({
     required this.data,
   });
 
-  StorePostCartsCartPaymentSessionUpdateReqdata.fromJson(
+  StorePostCartsCartPaymentSessionUpdateReqData.fromJson(
       Map<String, dynamic> json) {
-    data = json['data'] ?? null;
+    data = json['data'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     if (this.data != null) {
       data['data'] = this.data!;
     }

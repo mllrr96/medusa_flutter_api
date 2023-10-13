@@ -10,7 +10,7 @@ class StoreReturnReasonsRes {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['return_reason'] = returnReason?.toJson();
     return data;
   }
@@ -29,9 +29,9 @@ class StoreReturnReasonsListRes {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['return_reasons'] =
-        returnReasons?.map((e) => e.toJson()).toList() ?? [];
+        returnReasons?.map((e) => e.toJson()).toList() ;
     return data;
   }
 }

@@ -63,28 +63,28 @@ class Return {
       shippingMethod = <ShippingMethod>[];
       json['shipping_method'].forEach((e) => shippingMethod!.add(ShippingMethod.fromJson(json['shipping_method'])));
     }
-    shippingData = json['shipping_data'] ?? {};
+    shippingData = json['shipping_data'] ;
     refundAmount = json['refund_amount'];
     noNotification = json['no_notification'];
     idempotencyKey = json['idempotency_key'];
     receivedAt = DateTime.tryParse(json['received_at'] ?? '');
     createdAt = DateTime.tryParse(json['received_at'] ?? '');
     updatedAt = DateTime.tryParse(json['received_at'] ?? '');
-    metadata = json['metadata'] ?? {};
+    metadata = json['metadata'] ;
   }
 
   Map<String, dynamic> toJson() {
     var json = <String, dynamic>{};
     json['id'] = id;
     json['status'] = status.value;
-    json['items'] = items?.map((e) => e.toJson()).toList() ?? [];
+    json['items'] = items?.map((e) => e.toJson()).toList();
     json['swap_id'] = swapId;
     json['swap'] = swap?.toJson();
     json['order_id'] = orderId;
     json['order'] = order?.toJson();
     json['claim_order_id'] = claimOrderId;
     json['claim_order'] = claimOrder?.toJson();
-    json['shipping_method'] = shippingMethod?.map((e) => e.toJson()).toList() ?? [];
+    json['shipping_method'] = shippingMethod?.map((e) => e.toJson()).toList();
     json['shipping_data'] = shippingData;
     json['refund_amount'] = refundAmount;
     json['no_notification'] = noNotification;

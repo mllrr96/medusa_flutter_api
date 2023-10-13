@@ -36,7 +36,7 @@ class ProductOptionValue {
     createdAt = DateTime.tryParse(json['created_at'] ?? '')?.toLocal();
     updatedAt = DateTime.tryParse(json['updated_at'] ?? '')?.toLocal();
     deletedAt = DateTime.tryParse(json['deleted_at'] ?? '')?.toLocal();
-    metadata = json['metadata'] ?? {};
+    metadata = json['metadata'] ;
   }
 
   Map<String, dynamic> toJson() {
@@ -44,9 +44,9 @@ class ProductOptionValue {
     json['id'] = id;
     json['value'] = value;
     json['option_id'] = optionId;
-    json['option'] = option?.toJson() ?? {};
+    json['option'] = option?.toJson() ;
     json['variant_id'] = variantId;
-    json['variant'] = variant?.toJson() ?? {};
+    json['variant'] = variant?.toJson() ;
     json['created_at'] = createdAt.toString();
     json['updated_at'] = updatedAt.toString();
     json['deleted_at'] = deletedAt.toString();

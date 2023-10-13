@@ -48,7 +48,7 @@ class GiftCard {
     createdAt = DateTime.tryParse(json['created_at'] ?? '')?.toLocal();
     updatedAt = DateTime.tryParse(json['updated_at'] ?? '')?.toLocal();
     deletedAt = DateTime.tryParse(json['deleted_at'] ?? '')?.toLocal();
-    metadata = json['metadata'] ?? {};
+    metadata = json['metadata'] ;
   }
 
   Map<String, dynamic> toJson() {
@@ -58,9 +58,9 @@ class GiftCard {
     json['value'] = value;
     json['balance'] = balance;
     json['region_id'] = regionId;
-    json['region'] = region?.toJson() ?? {};
+    json['region'] = region?.toJson() ;
     json['order_id'] = orderId;
-    json['order'] = order?.toJson() ?? {};
+    json['order'] = order?.toJson() ;
     json['is_disabled'] = isDisabled;
     json['ends_at'] = endsAt.toString();
     json['created_at'] = createdAt.toString();

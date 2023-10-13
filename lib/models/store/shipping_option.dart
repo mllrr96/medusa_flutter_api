@@ -169,7 +169,7 @@ class ShippingOption {
     json['admin_only'] = adminOnly;
 
     if (requirements != null) {
-      json['requirements'] = requirements?.map((e) => e.toJson()).toList() ?? [];
+      json['requirements'] = requirements?.map((e) => e.toJson()).toList();
     }
 
     if (data != null) {

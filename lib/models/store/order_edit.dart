@@ -162,7 +162,7 @@ class OrderEdit  {
     json['tax_total'] = taxTotal;
     json['total'] = total;
     json['difference_due'] = differenceDue;
-    json['items'] = items?.map((e) => e.toJson()).toList() ?? [];
+    json['items'] = items?.map((e) => e.toJson()).toList();
     json['status'] = status.name;
     json['canceled_by'] = canceledBy;
     json['canceled_at'] = canceledAt.toString();

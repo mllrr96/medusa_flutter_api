@@ -46,7 +46,7 @@ class CustomerGroup {
     var json = <String, dynamic>{};
     json['name'] = name;
     json['id'] = id;
-    json['customers'] = customers?.map((e) => e.toJson()).toList() ?? [];
+    json['customers'] = customers?.map((e) => e.toJson()).toList();
     json['created_at'] = createdAt.toString();
     json['updated_at'] = updatedAt.toString();
     json['deleted_at'] = deletedAt.toString();

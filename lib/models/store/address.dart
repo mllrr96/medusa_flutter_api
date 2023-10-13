@@ -68,7 +68,7 @@ class Address {
     createdAt = DateTime.tryParse(json['created_at'] ?? '');
     updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
     deletedAt = DateTime.tryParse(json['deleted_at'] ?? '');
-    metadata = json['metadata'] ?? {};
+    metadata = json['metadata'];
   }
 
   Map<String, dynamic> toJson() {
@@ -84,7 +84,7 @@ class Address {
     json['address_2'] = address2;
     json['city'] = city;
     json['country_code'] = countryCode;
-    json['country'] = country?.toJson() ?? {};
+    json['country'] = country?.toJson();
     json['province'] = province;
     json['postal_code'] = postalCode;
     json['phone'] = phone;

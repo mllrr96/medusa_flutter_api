@@ -11,7 +11,7 @@ class StoreCustomersRes {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     if (customer != null) {
       data['customer'] = customer;
     }
@@ -32,8 +32,8 @@ class StoreCustomersListOrdersRes extends PaginatedResponse {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['orders'] = orders?.map((e) => e.toJson()).toList() ?? [];
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['orders'] = orders?.map((e) => e.toJson()).toList() ;
     return data;
   }
 }

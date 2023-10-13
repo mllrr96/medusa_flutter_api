@@ -13,8 +13,8 @@ class StoreRegionsListRes {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['regions'] = regions?.map((e) => e.toJson()).toList() ?? [];
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['regions'] = regions?.map((e) => e.toJson()).toList();
     return data;
   }
 }
@@ -27,7 +27,7 @@ class StoreRegionsRes {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['region'] = region?.toJson();
     return data;
   }

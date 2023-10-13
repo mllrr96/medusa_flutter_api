@@ -38,7 +38,7 @@ class ClaimImage {
     var json = <String, dynamic>{};
     json['id'] = id;
     json['claim_item_id'] = claimItemId;
-    json['claim_item'] = claimItem?.toJson() ?? {};
+    json['claim_item'] = claimItem?.toJson();
     json['url'] = url;
     json['created_at'] = createdAt;
     json['updated_at'] = updatedAt;

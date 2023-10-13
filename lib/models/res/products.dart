@@ -14,9 +14,10 @@ class StoreProductsListRes extends PaginatedResponse {
     }
   }
 
+  @override
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = super.toJson();
-    data['products'] = products?.map((e) => e.toJson()).toList() ?? [];
+    data['products'] = products?.map((e) => e.toJson()).toList();
     return data;
   }
 }
@@ -30,7 +31,7 @@ class StoreProductsRes {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['product'] = product?.toJson();
     return data;
   }
@@ -46,7 +47,7 @@ class StorePostSearchRes {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['hits'] = hits;
     return data;
   }

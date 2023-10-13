@@ -78,7 +78,6 @@ class Country {
     json['iso_3'] = iso3;
     json['display_name'] = displayName;
     // json['region_id'] = regionId;
-    // json['region'] = region?.toJson() ?? {};
     return json;
   }
 }

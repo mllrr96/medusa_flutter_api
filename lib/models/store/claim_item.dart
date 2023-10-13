@@ -69,22 +69,22 @@ class ClaimItem {
     createdAt = DateTime.tryParse(json['created_at'] ?? '');
     updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
     deletedAt = DateTime.tryParse(json['deleted_at'] ?? '');
-    metadata = json['metadata'] ?? {};
+    metadata = json['metadata'] ;
   }
 
   Map<String, dynamic> toJson() {
     var json = <String, dynamic>{};
     json['id'] = id;
-    json['images'] = images?.map((e) => e.toJson()).toList() ?? [];
+    json['images'] = images?.map((e) => e.toJson()).toList() ;
     json['claim_order_id'] = claimOrderId;
-    json['claim_order'] = claimOrder?.toJson() ?? {};
+    json['claim_order'] = claimOrder?.toJson() ;
     json['item_id'] = itemId;
-    json['item'] = item?.toJson() ?? {};
+    json['item'] = item?.toJson() ;
     json['variant_id'] = variantId;
-    json['variant'] = variant?.toJson() ?? {};
+    json['variant'] = variant?.toJson() ;
     json['reason'] = reason?.value;
     json['note'] = note;
-    json['tags'] = tags?.map((e) => e.toJson()).toList() ?? [];
+    json['tags'] = tags?.map((e) => e.toJson()).toList() ;
     json['created_at'] = createdAt.toString();
     json['updated_at'] = updatedAt.toString();
     json['deleted_at'] = deletedAt.toString();

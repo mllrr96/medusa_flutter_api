@@ -11,9 +11,8 @@ class StoreCustomersListPaymentMethodsRes {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['payment_methods'] =
-        paymentMethods?.map((e) => e.toJson()).toList() ?? [];
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['payment_methods'] = paymentMethods?.map((e) => e.toJson()).toList();
     return data;
   }
 }
@@ -28,7 +27,7 @@ class PaymentMethod {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['provider_id'] = providerId;
     data['data'] = data;
     return data;

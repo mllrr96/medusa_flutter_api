@@ -50,9 +50,9 @@ class ShippingProfile {
     json['id'] = id;
     json['name'] = name;
     json['type'] = type.value;
-    json['products'] = products?.map((e) => e.toJson()).toList() ?? [];
+    json['products'] = products?.map((e) => e.toJson()).toList();
     json['shipping_options'] =
-        shippingOptions?.map((e) => e.toJson()).toList() ?? [];
+        shippingOptions?.map((e) => e.toJson()).toList();
     json['created_at'] = createdAt.toString();
     json['updated_at'] = updatedAt.toString();
     json['deleted_at'] = deletedAt.toString();

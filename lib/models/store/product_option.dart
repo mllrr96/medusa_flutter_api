@@ -38,16 +38,16 @@ class ProductOption {
     createdAt = DateTime.tryParse(json['created_at'] ?? '');
     updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
     deletedAt = DateTime.tryParse(json['deleted_at'] ?? '');
-    metadata = json['metadata'] ?? {};
+    metadata = json['metadata'] ;
   }
 
   Map<String, dynamic> toJson() {
     var json = <String, dynamic>{};
     json['id'] = id;
     json['title'] = title;
-    json['values'] = values?.map((e) => e.toJson()).toList() ?? [];
+    json['values'] = values?.map((e) => e.toJson()).toList() ;
     json['product_id'] = productId;
-    json['product'] = product?.toJson() ?? {};
+    json['product'] = product?.toJson() ;
     json['created_at'] = createdAt.toString();
     json['updated_at'] = updatedAt.toString();
     json['deleted_at'] = deletedAt.toString();

@@ -44,7 +44,7 @@ class DiscountRule {
     createdAt = DateTime.tryParse(json['created_at'] ?? '')?.toLocal();
     updatedAt = DateTime.tryParse(json['updated_at'] ?? '')?.toLocal();
     deletedAt = DateTime.tryParse(json['deleted_at'] ?? '')?.toLocal();
-    metadata = json['metadata'] ?? {};
+    metadata = json['metadata'] ;
   }
 
   Map<String, dynamic> toJson() {
@@ -54,7 +54,7 @@ class DiscountRule {
     json['description'] = description;
     json['value'] = value;
     json['allocation'] = allocation?.value;
-    json['conditions'] = conditions?.map((e) => e.toJson()).toList() ?? [];
+    json['conditions'] = conditions?.map((e) => e.toJson()).toList() ;
     json['created_at'] = createdAt.toString();
     json['updated_at'] = updatedAt.toString();
     json['deleted_at'] = deletedAt.toString();

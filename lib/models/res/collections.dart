@@ -12,7 +12,7 @@ class StoreCollectionsRes {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     if (collection != null) {
       data['collection'] = collection?.toJson();
     }
@@ -32,9 +32,10 @@ class StoreCollectionsListRes extends PaginatedResponse {
     }
   }
 
+  @override
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['collections'] = collections?.map((e) => e.toJson()).toList() ?? [];
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['collections'] = collections?.map((e) => e.toJson()).toList();
     return data;
   }
 }

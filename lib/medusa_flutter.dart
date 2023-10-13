@@ -81,6 +81,8 @@ class Medusa {
       }
       return handler.next(options);
     }));
-    if (kDebugMode) _dio.interceptors.add(LogInterceptor());
+    if(config.enableDebugging ?? kDebugMode){
+      _dio.interceptors.add(LogInterceptor());
+    }
   }
 }

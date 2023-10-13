@@ -31,15 +31,15 @@ class DiscountConditionCustomerGroup {
         : null;
     createdAt = DateTime.tryParse(json['created_at'] ?? '');
     updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
-    metadata = json['metadata'] ?? {};
+    metadata = json['metadata'] ;
   }
 
   Map<String, dynamic> toJson() {
     var json = <String, dynamic>{};
     json['customer_group_id'] = customerGroupId;
     json['condition_id'] = conditionId;
-    json['customer_group'] = customerGroup?.toJson() ?? {};
-    json['discount_condition'] = discountCondition?.toJson() ?? {};
+    json['customer_group'] = customerGroup?.toJson() ;
+    json['discount_condition'] = discountCondition?.toJson() ;
     json['created_at'] = createdAt.toString();
     json['updated_at'] = updatedAt.toString();
     json['metadata'] = metadata;

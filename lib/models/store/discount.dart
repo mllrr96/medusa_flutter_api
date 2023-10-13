@@ -61,11 +61,11 @@ class Discount {
       json['regions'].forEach((e) => regions?.add(Region.fromJson(e)));
     }
     usageLimit = json['usage_limit'];
-    usageCount = json['usage_count'] ?? 0;
+    usageCount = json['usage_count'] ;
     createdAt = DateTime.tryParse(json['created_at'] ?? '')?.toLocal();
     updatedAt = DateTime.tryParse(json['updated_at'] ?? '')?.toLocal();
     deletedAt = DateTime.tryParse(json['deleted_at'] ?? '')?.toLocal();
-    metadata = json['metadata'] ?? {};
+    metadata = json['metadata'];
   }
 
   Map<String, dynamic> toJson() {
@@ -77,7 +77,7 @@ class Discount {
     json['rule'] = rule;
     json['is_disabled'] = isDisabled;
     json['parent_discount_id'] = parentDiscountId;
-    json['parent_discount'] = parentDiscount?.toJson() ?? {};
+    json['parent_discount'] = parentDiscount?.toJson() ;
     json['starts_at'] = startsAt;
     json['ends_at'] = endsAt;
     json['valid_duration'] = validDuration;

@@ -101,7 +101,7 @@ class ClaimOrder {
     createdAt = DateTime.tryParse(json['created_at'] ?? '');
     updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
     deletedAt = DateTime.tryParse(json['deleted_at'] ?? '');
-    metadata = json['metadata'] ?? {};
+    metadata = json['metadata'] ;
     noNotification = json['no_notification'];
     idempotencyKey = json['idempotency_key'];
   }
@@ -112,17 +112,17 @@ class ClaimOrder {
     json['type'] = type?.value;
     json['payment_status'] = paymentStatus.value;
     json['fulfillment_status'] = fulfillmentStatus.value;
-    json['claim_items'] = claimItems?.map((e) => e.toJson()).toList() ?? [];
+    json['claim_items'] = claimItems?.map((e) => e.toJson()).toList() ;
     json['additional_items'] =
-        additionalItems?.map((e) => e.toJson()).toList() ?? [];
+        additionalItems?.map((e) => e.toJson()).toList() ;
     json['order_id'] = orderId;
-    json['order'] = order?.toJson() ?? {};
-    json['return_order'] = returnOrder?.toJson() ?? {};
+    json['order'] = order?.toJson() ;
+    json['return_order'] = returnOrder?.toJson() ;
     json['shipping_address_id'] = shippingAddressId;
-    json['shipping_address'] = shippingAddress?.toJson() ?? {};
+    json['shipping_address'] = shippingAddress?.toJson() ;
     json['shipping_methods'] =
-        shippingMethods?.map((e) => e.toJson()).toList() ?? [];
-    json['fulfillments'] = fulfillments?.map((e) => e.toJson()).toList() ?? [];
+        shippingMethods?.map((e) => e.toJson()).toList() ;
+    json['fulfillments'] = fulfillments?.map((e) => e.toJson()).toList() ;
     json['refund_amount'] = refundAmount;
     json['no_notification'] = noNotification;
     json['idempotency_key'] = idempotencyKey;

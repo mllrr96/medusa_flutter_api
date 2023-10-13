@@ -38,7 +38,7 @@ class Store {
     if (json['currencies'] != null) {
       currencies = <Currency>[];
       json['currencies'].forEach((v) {
-        currencies!.add(new Currency.fromJson(v));
+        currencies!.add(Currency.fromJson(v));
       });
     }
     swapLinkTemplate = json['swap_link_template'];
@@ -52,20 +52,20 @@ class Store {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['default_currency_code'] = this.defaultCurrencyCode;
-    data['default_currency'] = this.defaultCurrency?.toJson() ?? {};
-    if (this.currencies != null) {
-      data['currencies'] = this.currencies!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['default_currency_code'] = defaultCurrencyCode;
+    data['default_currency'] = defaultCurrency?.toJson() ;
+    if (currencies != null) {
+      data['currencies'] = currencies!.map((v) => v.toJson()).toList();
     }
-    data['swap_link_template'] = this.swapLinkTemplate;
-    data['payment_link_template'] = this.paymentLinkTemplate;
-    data['invite_link_template'] = this.inviteLinkTemplate;
-    data['metadata'] = this.metadata;
-    data['default_sales_channel_id'] = this.defaultSalesChannelId;
-    data['default_sales_channel'] = this.defaultSalesChannel?.toJson() ?? {};
+    data['swap_link_template'] = swapLinkTemplate;
+    data['payment_link_template'] = paymentLinkTemplate;
+    data['invite_link_template'] = inviteLinkTemplate;
+    data['metadata'] = metadata;
+    data['default_sales_channel_id'] = defaultSalesChannelId;
+    data['default_sales_channel'] = defaultSalesChannel?.toJson() ;
     return data;
   }
 }

@@ -306,7 +306,7 @@ class Product  {
     }
 
     if (salesChannels != null) {
-      json['sales_channels'] = salesChannels?.map((e) => e.toJson()).toList() ?? [];
+      json['sales_channels'] = salesChannels?.map((e) => e.toJson()).toList();
     }
     if (tags != null) {
       json['tags'] = tags?.map((e) => e.toJson()).toList();
