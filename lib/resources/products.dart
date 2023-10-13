@@ -1,18 +1,13 @@
-import 'dart:developer';
-
-import 'package:medusa_flutter/models/req/store_post_search_req.dart';
+import 'package:medusa_flutter/medusa_flutter.dart';
 import 'package:medusa_flutter/resources/base.dart';
+import 'package:multiple_result/multiple_result.dart';
 
-import '../models/res/products.dart';
 
 class ProductsResource extends BaseResource {
   ProductsResource(super.client);
 
-  /// @description Retrieves a list of products
-  /// @param {StoreGetProductsParams} query is optional. Can contain a limit and offset for the returned list
-  /// @param customHeaders
-  /// @return {ResponsePromise<StoreProductsListRes>}
-  Future<StoreProductsListRes?> list(
+  /// Retrieves a list of products
+  Future<Result<StoreProductsListRes, Failure>> list(
       {Map<String, dynamic>? queryParams,
       Map<String, dynamic>? customHeaders}) async {
     try {
@@ -24,21 +19,17 @@ class ProductsResource extends BaseResource {
         queryParameters: queryParams,
       );
       if (response.statusCode == 200) {
-        return StoreProductsListRes.fromJson(response.data);
+        return Success(StoreProductsListRes.fromJson(response.data));
       } else {
-        throw response.statusCode!;
+        return Error(Failure.from(response));
       }
-    } catch (error,stackTrace) {
-      log(error.toString(),stackTrace:stackTrace);
-      rethrow;
+    } catch (e) {
+      return Error(Failure.from(e));
     }
   }
 
-  /// @description Retrieves a single Product
-  /// @param {string} id is required
-  /// @param customHeaders
-  /// @return {ResponsePromise<StoreProductsRes>}
-  Future<StoreProductsRes?> retrieve(String id,
+  /// Retrieves a single Product
+  Future<Result<StoreProductsRes, Failure>> retrieve(String id,
       {Map<String, dynamic>? customHeaders}) async {
     try {
       if (customHeaders != null) {
@@ -48,21 +39,17 @@ class ProductsResource extends BaseResource {
         '/store/products/$id',
       );
       if (response.statusCode == 200) {
-        return StoreProductsRes.fromJson(response.data);
+        return Success(StoreProductsRes.fromJson(response.data));
       } else {
-        throw response.statusCode!;
+        return Error(Failure.from(response));
       }
-    } catch (error,stackTrace) {
-      log(error.toString(),stackTrace:stackTrace);
-      rethrow;
+    } catch (e) {
+      return Error(Failure.from(e));
     }
   }
 
-  /// @description Searches for products
-  /// @param {StorePostSearchReq} searchOptions is required
-  /// @param customHeaders
-  /// @return {ResponsePromise<StorePostSearchRes>}
-  Future<StorePostSearchRes?> search(
+  /// Searches for products
+  Future<Result<StorePostSearchRes, Failure>> search(
       {StorePostSearchReq? req, Map<String, dynamic>? customHeaders}) async {
     try {
       if (customHeaders != null) {
@@ -71,13 +58,12 @@ class ProductsResource extends BaseResource {
       final response = await client
           .post('/store/products/search', data: req);
       if (response.statusCode == 200) {
-        return StorePostSearchRes.fromJson(response.data);
+        return Success(StorePostSearchRes.fromJson(response.data));
       } else {
-        throw response.statusCode!;
+        return Error(Failure.from(response));
       }
-    } catch (error,stackTrace) {
-      log(error.toString(),stackTrace:stackTrace);
-      rethrow;
+    } catch (e) {
+      return Error(Failure.from(e));
     }
   }
 }

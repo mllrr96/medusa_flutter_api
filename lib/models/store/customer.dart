@@ -17,7 +17,7 @@ class Customer {
   DateTime? createdAt;
   DateTime? updatedAt;
   DateTime? deletedAt;
-  Map<String, dynamic> metadata = <String, dynamic>{};
+  Map<String, dynamic>? metadata;
 
   Customer.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -50,7 +50,7 @@ class Customer {
     createdAt = DateTime.tryParse(json['created_at'] ?? '');
     updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
     deletedAt = DateTime.tryParse(json['deleted_at'] ?? '');
-    metadata = json['metadata'] ?? {};
+    metadata = json['metadata'];
   }
 
   Map<String, dynamic> toJson() {

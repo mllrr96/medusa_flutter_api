@@ -51,24 +51,24 @@ class StoreGetCustomersCustomerOrdersParams {
     regionId = json['region_id'];
     currencyCode = json['currency_code'];
     taxRate = json['tax_rate'];
-    createdAt = DateTime.tryParse(json['created_at'] ?? '');
-    updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
-    canceledAt = DateTime.tryParse(json['canceled_at'] ?? '');
+    createdAt = DateTime.tryParse(json['created_at'] ?? '')?.toLocal();
+    updatedAt = DateTime.tryParse(json['updated_at'] ?? '')?.toLocal();
+    canceledAt = DateTime.tryParse(json['canceled_at'] ?? '')?.toLocal();
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['q'] = this.q;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['q'] = q;
     data['status'] = status.value;
     data['fulfillment_status'] = fulfillmentStatus.value;
     data['payment_status'] = paymentStatus.value;
-    data['display_id'] = this.displayId;
-    data['cart_id'] = this.cartId;
-    data['email'] = this.email;
-    data['region_id'] = this.regionId;
-    data['currency_code'] = this.currencyCode;
-    data['tax_rate'] = this.taxRate;
+    data['display_id'] = displayId;
+    data['cart_id'] = cartId;
+    data['email'] = email;
+    data['region_id'] = regionId;
+    data['currency_code'] = currencyCode;
+    data['tax_rate'] = taxRate;
     data['created_at'] = createdAt.toString();
     data['updated_at'] = updatedAt.toString();
     data['canceled_at'] = canceledAt.toString();

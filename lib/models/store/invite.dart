@@ -10,7 +10,7 @@ class Invite {
   DateTime? createdAt;
   DateTime? updatedAt;
   DateTime? deletedAt;
-  Map<String, dynamic> metadata = <String, dynamic>{};
+  Map<String, dynamic>? metadata;
 
   Invite({
     this.id,
@@ -22,7 +22,7 @@ class Invite {
     this.createdAt,
     this.updatedAt,
     this.deletedAt,
-    this.metadata = const {},
+    this.metadata,
   });
 
   Invite.fromJson(Map<String, dynamic> json) {
@@ -32,10 +32,10 @@ class Invite {
     accepted = json['accepted'];
     token = json['token'];
     expiresAt = json['expires_at'];
-    createdAt = DateTime.tryParse(json['created_at'] ?? '');
-    updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
-    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '');
-    metadata = json['metadata'] ?? {};
+    createdAt = DateTime.tryParse(json['created_at'] ?? '')?.toLocal();
+    updatedAt = DateTime.tryParse(json['updated_at'] ?? '')?.toLocal();
+    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '')?.toLocal();
+    metadata = json['metadata'];
   }
 
   Map<String, dynamic> toJson() {

@@ -1,40 +1,80 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:medusa_demo/main.dart';
 import 'package:medusa_demo/product_detail_screen.dart';
 import 'package:medusa_flutter/medusa_flutter.dart';
+
+import 'currency_formatter.dart';
 
 class ProductListScreen extends StatefulWidget {
   const ProductListScreen({Key? key}) : super(key: key);
 
   @override
-  _ProductListScreenState createState() => _ProductListScreenState();
+  ProductListScreenState createState() => ProductListScreenState();
 }
 
-class _ProductListScreenState extends State<ProductListScreen> {
+class ProductListScreenState extends State<ProductListScreen> {
+  static const _pageSize = 20;
+
+  final PagingController<int, Product> _pagingController =
+      PagingController(firstPageKey: 0, invisibleItemsThreshold: 4);
+
+  @override
+  void initState() {
+    _pagingController.addPageRequestListener((pageKey) => _fetchPage(pageKey));
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _pagingController.dispose();
+  }
+
+  Future<void> _fetchPage(int pageKey) async {
+    final result = await medusa.products.list(queryParams: {
+      'offset': _pagingController.itemList?.length ?? 0,
+      'limit': _pageSize,
+    });
+
+    result.when((success) {
+      final products = success.products;
+      if (products == null) {
+        _pagingController.error = 'Error loading products';
+        return;
+      }
+      final isLastPage = products.length < _pageSize;
+      if (isLastPage) {
+        _pagingController.appendLastPage(products);
+      } else {
+        final nextPageKey = pageKey + products.length;
+        _pagingController.appendPage(products, nextPageKey);
+      }
+    }, (error) {
+      _pagingController.error = error;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: FutureBuilder<StoreProductsListRes?>(
-          future: medusa.products.list(),
-          builder: (BuildContext context,
-              AsyncSnapshot<StoreProductsListRes?> snapshot) {
-            if (snapshot.hasData) {
-              if (snapshot.data == null) return const Text("No Products found");
-              return GridView.builder(
-                  shrinkWrap: true,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                  ),
-                  itemCount: snapshot.data?.products?.length,
-                  itemBuilder: (context, index) =>
-                      _ProductItem(product: snapshot.data!.products![index]));
-            } else if (snapshot.hasError) {
-              return const Text("Something went wrong!");
-            } else {
-              return const CircularProgressIndicator();
-            }
-          },
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: Theme.of(context).appBarTheme.systemOverlayStyle!,
+      child: Scaffold(
+        body: SafeArea(
+          child: PagedGridView(
+              pagingController: _pagingController,
+              builderDelegate: PagedChildBuilderDelegate<Product>(
+                itemBuilder: (context, product, index) => _ProductItem(product: product),
+                firstPageProgressIndicatorBuilder: (context) =>
+                    const Center(child: CircularProgressIndicator.adaptive()),
+                noItemsFoundIndicatorBuilder: (_) => const Center(
+                  child: Text('No products found'),
+                ),
+              ),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+              )),
         ),
       ),
     );
@@ -48,11 +88,21 @@ class _ProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String price;
+    String symbol;
+    if (product.variants?.isEmpty ?? false || (product.variants?.first.prices?.isEmpty ?? false)) {
+      price = '';
+      symbol = '\$';
+    } else {
+      final currencyFormatter = CurrencyTextInputFormatter(name: product.variants?[0].prices?[0].currencyCode);
+      price = currencyFormatter.format(product.variants?.first.prices?.first.amount.toString() ?? '');
+      symbol = product.variants![0].prices![0].currency?.symbol ?? '\$';
+    }
+
     return Card(
       child: InkWell(
         onTap: () {
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => ProductDetailScreen(product: product)));
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProductDetailScreen(product: product)));
         },
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -68,32 +118,29 @@ class _ProductItem extends StatelessWidget {
                         product.thumbnail!,
                         width: 150,
                         height: 100,
-                        errorBuilder: (context, error, stack) =>
-                            const Icon(Icons.warning_amber_outlined),
+                        errorBuilder: (context, error, stack) => const Icon(Icons.warning_amber_outlined),
                       ),
                     ],
                   ),
                 ),
+              if (product.thumbnail == null) const Spacer(),
               Text(
                 product.title!,
-                style: Theme.of(context).textTheme.headline6,
+                style: Theme.of(context).textTheme.titleLarge,
               ),
               if (product.subtitle != null)
                 Text(
                   product.subtitle!,
-                  style: Theme.of(context).textTheme.subtitle1,
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
               const SizedBox(
                 height: 10,
               ),
-              Text(
-                product.variants != null
-                    ? (product.variants![0].prices != null
-                        ? "${product.variants![0].prices![0].currency?.symbol ?? "\$"} ${product.variants![0].prices![0].amount.toString()}"
-                        : "-")
-                    : "-",
-                style: Theme.of(context).textTheme.subtitle2,
-              )
+              if (product.variants?.isNotEmpty ?? false)
+                Text(
+                  "$symbol $price",
+                  style: Theme.of(context).textTheme.titleSmall,
+                )
             ],
           ),
         ),

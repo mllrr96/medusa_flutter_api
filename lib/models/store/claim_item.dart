@@ -21,7 +21,7 @@ class ClaimItem {
   DateTime? createdAt;
   DateTime? updatedAt;
   DateTime? deletedAt;
-  Map<String, dynamic> metadata = <String, dynamic>{};
+  Map<String, dynamic>? metadata;
 
   ClaimItem({
     this.id,
@@ -39,7 +39,7 @@ class ClaimItem {
     this.createdAt,
     this.updatedAt,
     this.deletedAt,
-    this.metadata = const <String, dynamic>{},
+    this.metadata,
   });
 
   ClaimItem.fromJson(Map<String, dynamic> json) {

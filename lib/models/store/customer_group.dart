@@ -9,8 +9,7 @@ class CustomerGroup {
   DateTime? createdAt;
   DateTime? updatedAt;
   DateTime? deletedAt;
-  Map<String, dynamic> metadata = <String, dynamic>{};
-
+  Map<String, dynamic>? metadata;
   CustomerGroup({
     this.id,
     required this.name,
@@ -19,7 +18,7 @@ class CustomerGroup {
     this.createdAt,
     this.updatedAt,
     this.deletedAt,
-    this.metadata = const <String, dynamic>{},
+    this.metadata,
   });
 
   CustomerGroup.fromJson(Map<String, dynamic> json) {

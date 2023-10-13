@@ -1,10 +1,7 @@
 library medusa_flutter;
 
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'data/config.dart';
@@ -28,6 +25,7 @@ export '/models/common/index.dart';
 export '/models/req/index.dart';
 export '/models/res/index.dart';
 export '/models/store/index.dart';
+export 'package:multiple_result/multiple_result.dart';
 
 class Medusa {
   final Dio _dio = Dio();

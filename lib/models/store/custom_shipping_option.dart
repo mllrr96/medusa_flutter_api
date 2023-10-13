@@ -12,7 +12,7 @@ class CustomShippingOption {
   DateTime? createdAt;
   DateTime? updatedAt;
   DateTime? deletedAt;
-  Map<String, dynamic> metadata = <String, dynamic>{};
+  Map<String, dynamic>? metadata;
 
   CustomShippingOption({
     this.id,
@@ -25,7 +25,7 @@ class CustomShippingOption {
     this.createdAt,
     this.updatedAt,
     this.deletedAt,
-    this.metadata = const {},
+    this.metadata,
   });
 
   CustomShippingOption.fromJson(Map<String, dynamic> json) {

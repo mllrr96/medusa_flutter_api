@@ -1,17 +1,13 @@
-import 'dart:developer';
-
+import 'package:medusa_flutter/medusa_flutter.dart';
 import 'package:medusa_flutter/resources/base.dart';
+import 'package:multiple_result/multiple_result.dart';
 
-import '../models/res/collections.dart';
 
 class CollectionsResource extends BaseResource {
   CollectionsResource(super.client);
 
-  /// @description Retrieves a single collection
-  /// @param {string} id id of the collection
-  /// @param customHeaders
-  /// @return {ResponsePromise<StoreCollectionsRes>}
-  Future<StoreCollectionsRes?> retrieve(
+  /// Retrieves a single collection
+  Future<Result<StoreCollectionsRes, Failure>> retrieve(
       {required String id, Map<String, dynamic>? customHeaders}) async {
     try {
       if (customHeaders != null) {
@@ -20,21 +16,17 @@ class CollectionsResource extends BaseResource {
       final response =
           await client.get('/store/collections/$id');
       if (response.statusCode == 200) {
-        return StoreCollectionsRes.fromJson(response.data);
+        return Success(StoreCollectionsRes.fromJson(response.data));
       } else {
-        throw response.statusCode!;
+        return Error(Failure.from(response));
       }
-    } catch (error,stackTrace) {
-      log(error.toString(),stackTrace:stackTrace);
-      rethrow;
+    } catch (e) {
+      return Error(Failure.from(e));
     }
   }
 
-  /// @description Retrieves a list of collections
-  /// @param {string} query is optional. Can contain a limit and offset for the returned list
-  /// @param customHeaders
-  /// @return {ResponsePromise<StoreCollectionsListRes>}
-  Future<StoreCollectionsListRes?> list(
+  /// Retrieves a list of collections
+  Future<Result<StoreCollectionsListRes, Failure>> list(
       {Map<String, dynamic>? queryParams,
       Map<String, dynamic>? customHeaders}) async {
     try {
@@ -46,13 +38,12 @@ class CollectionsResource extends BaseResource {
         queryParameters: queryParams,
       );
       if (response.statusCode == 200) {
-        return StoreCollectionsListRes.fromJson(response.data);
+        return Success(StoreCollectionsListRes.fromJson(response.data));
       } else {
-        throw response.statusCode!;
+        return Error(Failure.from(response));
       }
-    } catch (error,stackTrace) {
-      log(error.toString(),stackTrace:stackTrace);
-      rethrow;
+    } catch (e) {
+      return Error(Failure.from(e));
     }
   }
 }

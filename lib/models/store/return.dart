@@ -22,7 +22,7 @@ class Return {
   DateTime? receivedAt;
   DateTime? createdAt;
   DateTime? updatedAt;
-  Map<String, dynamic> metadata = {};
+  Map<String, dynamic>? metadata;
 
   Return({
     this.id,
@@ -42,31 +42,26 @@ class Return {
     this.receivedAt,
     this.createdAt,
     this.updatedAt,
-    this.metadata = const {},
+    this.metadata,
   });
 
   Return.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    status = ReturnStatus.values.firstWhere(
-        (e) => e.value == (json['status'] ?? ''),
-        orElse: () => ReturnStatus.requested);
+    status =
+        ReturnStatus.values.firstWhere((e) => e.value == (json['status'] ?? ''), orElse: () => ReturnStatus.requested);
     if (json['items'] != null) {
       items = <ReturnItem>[];
-      json['items']
-          .forEach((e) => items!.add(ReturnItem.fromJson(json['items'])));
+      json['items'].forEach((e) => items!.add(ReturnItem.fromJson(json['items'])));
     }
     swapId = json['swap_id'];
     swap = json['swap'] != null ? Swap.fromJson(json['swap']) : null;
     orderId = json['order_id'];
     order = json['order'] != null ? Order.fromJson(json['order']) : null;
     claimOrderId = json['claim_order_id'];
-    claimOrder = json['claim_order'] != null
-        ? ClaimOrder.fromJson(json['claim_order'])
-        : null;
+    claimOrder = json['claim_order'] != null ? ClaimOrder.fromJson(json['claim_order']) : null;
     if (json['shipping_method'] != null) {
       shippingMethod = <ShippingMethod>[];
-      json['shipping_method'].forEach((e) => shippingMethod!
-          .add(ShippingMethod.fromJson(json['shipping_method'])));
+      json['shipping_method'].forEach((e) => shippingMethod!.add(ShippingMethod.fromJson(json['shipping_method'])));
     }
     shippingData = json['shipping_data'] ?? {};
     refundAmount = json['refund_amount'];
@@ -89,8 +84,7 @@ class Return {
     json['order'] = order?.toJson();
     json['claim_order_id'] = claimOrderId;
     json['claim_order'] = claimOrder?.toJson();
-    json['shipping_method'] =
-        shippingMethod?.map((e) => e.toJson()).toList() ?? [];
+    json['shipping_method'] = shippingMethod?.map((e) => e.toJson()).toList() ?? [];
     json['shipping_data'] = shippingData;
     json['refund_amount'] = refundAmount;
     json['no_notification'] = noNotification;

@@ -1,13 +1,39 @@
 class User {
+  /// The user's ID
   String? id;
+
+  /// The email of the User
   String? email;
+
+  /// The first name of the User
   String? firstName;
+
+  /// The last name of the User
   String? lastName;
+
+  /// An API token associated with the user.
   String? apiToken;
+
+  /// The date with timezone at which the resource was created.
   DateTime? createdAt;
+
+  /// The date with timezone at which the resource was updated.
   DateTime? updatedAt;
+
+  /// The date with timezone at which the resource was deleted.
   DateTime? deletedAt;
-  Map<String, dynamic> metadata = <String, dynamic>{};
+
+  /// The user's role
+  ///
+  /// Default: "member"
+  ///
+  /// Enum: "admin" "member" "developer"
+  UserRoles? role;
+
+  /// An optional key-value map with additional details
+  ///
+  /// Example: {"car":"white"}
+  Map<String, dynamic>? metadata;
 
   User({
     this.id,
@@ -18,7 +44,7 @@ class User {
     this.createdAt,
     this.updatedAt,
     this.deletedAt,
-    this.metadata = const <String, dynamic>{},
+    this.metadata,
   });
 
   User.fromJson(Map<String, dynamic> json) {
@@ -27,10 +53,11 @@ class User {
     firstName = json['first_name'];
     lastName = json['last_name'];
     apiToken = json['api_token'];
-    createdAt = DateTime.tryParse(json['created_at'] ?? {});
-    updatedAt = DateTime.tryParse(json['updated_at'] ?? {});
-    deletedAt = DateTime.tryParse(json['deleted_at'] ?? {});
-    metadata = json['metadata'] ?? <String, dynamic>{};
+    createdAt = DateTime.tryParse(json['created_at'] ?? '')?.toLocal();
+    updatedAt = DateTime.tryParse(json['updated_at'] ?? '')?.toLocal();
+    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '')?.toLocal();
+    role = UserRoles.fromString(json['role']);
+    metadata = json['metadata'];
   }
 
   Map<String, dynamic> toJson() {
@@ -56,4 +83,14 @@ enum UserRoles {
   final String value;
 
   const UserRoles(this.value);
+
+  factory UserRoles.fromString(String value) {
+    if (value == 'admin') {
+      return UserRoles.admin;
+    } else if (value == 'developer') {
+      return UserRoles.developer;
+    } else {
+      return UserRoles.member;
+    }
+  }
 }

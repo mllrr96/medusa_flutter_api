@@ -1,17 +1,13 @@
-import 'dart:developer';
-
+import 'package:medusa_flutter/medusa_flutter.dart';
 import 'package:medusa_flutter/resources/base.dart';
+import 'package:multiple_result/multiple_result.dart';
 
-import '../models/res/payment_methods.dart';
 
 class PaymentMethodsResource extends BaseResource {
   PaymentMethodsResource(super.client);
 
   /// Lists customer payment methods
-  /// @param {string} id id of cart
-  /// @param customHeaders
-  /// @return {StoreCustomersListPaymentMethodsRes}
-  Future<StoreCustomersListPaymentMethodsRes?> list(
+  Future<Result<StoreCustomersListPaymentMethodsRes, Failure>> list(
       {Map<String, dynamic>? customHeaders}) async {
     try {
       if (customHeaders != null) {
@@ -20,13 +16,12 @@ class PaymentMethodsResource extends BaseResource {
       final response = await client
           .get('/store/customers/me/payment-methods');
       if (response.statusCode == 200) {
-        return StoreCustomersListPaymentMethodsRes.fromJson(response.data);
+        return Success(StoreCustomersListPaymentMethodsRes.fromJson(response.data));
       } else {
-        throw response.statusCode!;
+        return Error(Failure.from(response));
       }
-    } catch (error,stackTrace) {
-      log(error.toString(),stackTrace:stackTrace);
-      rethrow;
+    } catch (e) {
+      return Error(Failure.from(e));
     }
   }
 }

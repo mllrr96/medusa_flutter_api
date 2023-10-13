@@ -1,19 +1,12 @@
-import 'dart:developer';
-
+import 'package:medusa_flutter/medusa_flutter.dart';
 import 'package:medusa_flutter/resources/base.dart';
-
-import '../models/req/store_post_returns_req.dart';
-import '../models/res/returns.dart';
+import 'package:multiple_result/multiple_result.dart';
 
 class ReturnsResource extends BaseResource {
   ReturnsResource(super.client);
 
   /// Creates a return request
-  /// @param {StorePostReturnsReq} payload details needed to create a return
-  /// @param customHeaders
-  /// @return {ResponsePromise<StoreReturnsRes>}
-
-  Future<StoreReturnsRes?> search(
+  Future<Result<StoreReturnsRes, Failure>> search(
       {StorePostReturnsReq? req, Map<String, dynamic>? customHeaders}) async {
     try {
       if (customHeaders != null) {
@@ -22,13 +15,12 @@ class ReturnsResource extends BaseResource {
       final response = await client
           .post('`/store/returns', data: req);
       if (response.statusCode == 200) {
-        return StoreReturnsRes.fromJson(response.data);
+        return Success(StoreReturnsRes.fromJson(response.data));
       } else {
-        throw response.statusCode!;
+        return Error(Failure.from(response));
       }
-    } catch (error,stackTrace) {
-      log(error.toString(),stackTrace:stackTrace);
-      rethrow;
+    } catch (e) {
+      return Error(Failure.from(e));
     }
   }
 }

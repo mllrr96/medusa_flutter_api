@@ -1,17 +1,13 @@
-import 'dart:developer';
-
+import 'package:medusa_flutter/medusa_flutter.dart';
 import 'package:medusa_flutter/resources/base.dart';
+import 'package:multiple_result/multiple_result.dart';
 
-import '../models/res/orders.dart';
 
 class OrdersResource extends BaseResource {
   OrdersResource(super.client);
 
-  /// @description Retrieves an order
-  /// @param {string} id is required
-  /// @param customHeaders
-  /// @return {ResponsePromise<StoreOrdersRes>}
-  Future<StoreOrdersRes?> retrieve(
+  /// Retrieves an order
+  Future<Result<StoreOrdersRes, Failure>> retrieve(
       {required String id, Map<String, dynamic>? customHeaders}) async {
     try {
       if (customHeaders != null) {
@@ -20,21 +16,17 @@ class OrdersResource extends BaseResource {
       final response =
           await client.get('/store/orders/$id');
       if (response.statusCode == 200) {
-        return StoreOrdersRes.fromJson(response.data);
+        return Success(StoreOrdersRes.fromJson(response.data));
       } else {
-        throw response.statusCode!;
+        return Error(Failure.from(response));
       }
-    } catch (error,stackTrace) {
-      log(error.toString(),stackTrace:stackTrace);
-      rethrow;
+    } catch (e) {
+      return Error(Failure.from(e));
     }
   }
 
-  /// @description Retrieves an order by cart id
-  /// @param {string} cart_id is required
-  /// @param customHeaders
-  /// @return {ResponsePromise<StoreOrdersRes>}
-  Future<StoreOrdersRes?> retrieveByCartId(
+  /// Retrieves an order by cart id
+  Future<Result<StoreOrdersRes, Failure>> retrieveByCartId(
       {required String cartId, Map<String, dynamic>? customHeaders}) async {
     try {
       if (customHeaders != null) {
@@ -43,21 +35,17 @@ class OrdersResource extends BaseResource {
       final response = await client
           .get('/store/orders/cart/$cartId');
       if (response.statusCode == 200) {
-        return StoreOrdersRes.fromJson(response.data);
+        return Success(StoreOrdersRes.fromJson(response.data));
       } else {
-        throw response.statusCode!;
+        return Error(Failure.from(response));
       }
-    } catch (error,stackTrace) {
-      log(error.toString(),stackTrace:stackTrace);
-      rethrow;
+    } catch (e) {
+      return Error(Failure.from(e));
     }
   }
 
-  /// @description Look up an order using order details
-  /// @param {StoreGetOrdersParams} payload details used to look up the order
-  /// @param customHeaders
-  /// @return {ResponsePromise<StoreOrdersRes>}
-  Future<StoreOrdersRes?> lookupOrder(
+  /// Look up an order using order details
+  Future<Result<StoreOrdersRes, Failure>> lookupOrder(
       {Map<String, dynamic>? queryParams,
       Map<String, dynamic>? customHeaders}) async {
     try {
@@ -68,13 +56,12 @@ class OrdersResource extends BaseResource {
           '/store/orders/cart/',
           queryParameters: queryParams);
       if (response.statusCode == 200) {
-        return StoreOrdersRes.fromJson(response.data);
+        return Success(StoreOrdersRes.fromJson(response.data));
       } else {
-        throw response.statusCode!;
+        return Error(Failure.from(response));
       }
-    } catch (error,stackTrace) {
-      log(error.toString(),stackTrace:stackTrace);
-      rethrow;
+    } catch (e) {
+      return Error(Failure.from(e));
     }
   }
 }

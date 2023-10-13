@@ -15,7 +15,7 @@ class GiftCard {
   DateTime? createdAt;
   DateTime? updatedAt;
   DateTime? deletedAt;
-  Map<String, dynamic> metadata = <String, dynamic>{};
+  Map<String, dynamic>? metadata;
 
   GiftCard({
     this.id,
@@ -31,7 +31,7 @@ class GiftCard {
     this.createdAt,
     this.updatedAt,
     this.deletedAt,
-    this.metadata = const {},
+    this.metadata,
   });
 
   GiftCard.fromJson(Map<String, dynamic> json) {
@@ -45,9 +45,9 @@ class GiftCard {
     order = json['order'] != null ? Order.fromJson(json['order']) : null;
     isDisabled = json['is_disabled'];
     endsAt = DateTime.tryParse(json['ends_at'] ?? '');
-    createdAt = DateTime.tryParse(json['created_at'] ?? '');
-    updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
-    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '');
+    createdAt = DateTime.tryParse(json['created_at'] ?? '')?.toLocal();
+    updatedAt = DateTime.tryParse(json['updated_at'] ?? '')?.toLocal();
+    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '')?.toLocal();
     metadata = json['metadata'] ?? {};
   }
 

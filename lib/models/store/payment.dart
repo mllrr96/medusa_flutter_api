@@ -23,7 +23,7 @@ class Payment {
   DateTime? canceledAt;
   DateTime? createdAt;
   DateTime? updatedAt;
-  Map<String, dynamic> metadata = <String, dynamic>{};
+  Map<String, dynamic>? metadata;
 
   Payment({
     this.id,
@@ -44,7 +44,7 @@ class Payment {
     this.canceledAt,
     this.createdAt,
     this.updatedAt,
-    this.metadata = const <String, dynamic>{},
+    this.metadata,
   });
 
   Payment.fromJson(Map<String, dynamic> json) {
@@ -63,10 +63,10 @@ class Payment {
     providerId = json['provider_id'];
     data = json['data'] ?? {};
     idempotencyKey = json['idempotency_key'];
-    capturedAt = DateTime.tryParse(json['captured_at'] ?? '');
-    canceledAt = DateTime.tryParse(json['canceled_at'] ?? '');
-    createdAt = DateTime.tryParse(json['created_at'] ?? '');
-    updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
+    capturedAt = DateTime.tryParse(json['captured_at'] ?? '')?.toLocal();
+    canceledAt = DateTime.tryParse(json['canceled_at'] ?? '')?.toLocal();
+    createdAt = DateTime.tryParse(json['created_at'] ?? '')?.toLocal();
+    updatedAt = DateTime.tryParse(json['updated_at'] ?? '')?.toLocal();
     metadata = json['metadata'] ?? {};
   }
 

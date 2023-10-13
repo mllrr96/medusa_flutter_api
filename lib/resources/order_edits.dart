@@ -1,17 +1,12 @@
-import 'dart:developer';
-
+import 'package:medusa_flutter/medusa_flutter.dart';
 import 'package:medusa_flutter/resources/base.dart';
-
-import '../models/res/order_edits.dart';
+import 'package:multiple_result/multiple_result.dart';
 
 class OrderEditsResource extends BaseResource {
   OrderEditsResource(super.client);
 
-  /// @description Retrieves a editing order
-  /// @param {string} id of the order to be edited
-  /// @param customHeaders
-  /// @return {ResponsePromise<StoreOrderEditsRes>}
-  Future<StoreOrderEditsRes?> retrieve(
+  /// Retrieves a editing order
+  Future<Result<StoreOrderEditsRes, Failure>> retrieve(
       {required String id, Map<String, dynamic>? customHeaders}) async {
     try {
       if (customHeaders != null) {
@@ -20,13 +15,12 @@ class OrderEditsResource extends BaseResource {
       final response =
           await client.get('/store/order-edits/$id');
       if (response.statusCode == 200) {
-        return StoreOrderEditsRes.fromJson(response.data);
+        return Success( StoreOrderEditsRes.fromJson(response.data));
       } else {
-        throw response.statusCode!;
+        return Error(Failure.from(response));
       }
-    } catch (error,stackTrace) {
-      log(error.toString(),stackTrace:stackTrace);
-      rethrow;
+    } catch (e) {
+      return Error(Failure.from(e));
     }
   }
 }

@@ -10,7 +10,7 @@ class TrackingLink {
   DateTime? createdAt;
   DateTime? updatedAt;
   DateTime? deletedAt;
-  Map<String, dynamic> metadata = <String, dynamic>{};
+  Map<String, dynamic>? metadata;
 
   TrackingLink({
     this.id,
@@ -22,7 +22,7 @@ class TrackingLink {
     this.createdAt,
     this.updatedAt,
     this.deletedAt,
-    this.metadata = const <String, dynamic>{},
+    this.metadata,
   });
 
   TrackingLink.fromJson(Map<String, dynamic> json) {
@@ -32,9 +32,9 @@ class TrackingLink {
     fulfillmentId = json['fulfillment_id'];
     //TODO: parse fulfillment object - json['fulfillment']
     idempotencyKey = json['idempotency_key'];
-    createdAt = DateTime.tryParse(json['created_at'] ?? {});
-    updatedAt = DateTime.tryParse(json['updated_at'] ?? {});
-    deletedAt = DateTime.tryParse(json['deleted_at'] ?? {});
+    createdAt = DateTime.tryParse(json['created_at'] ?? '')?.toLocal();
+    updatedAt = DateTime.tryParse(json['updated_at'] ?? '')?.toLocal();
+    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '')?.toLocal();
     metadata = json['metadata'] ?? <String, dynamic>{};
   }
 

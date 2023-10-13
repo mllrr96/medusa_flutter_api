@@ -1,17 +1,13 @@
-import 'dart:developer';
-
+import 'package:medusa_flutter/medusa_flutter.dart';
 import 'package:medusa_flutter/resources/base.dart';
+import 'package:multiple_result/multiple_result.dart';
 
-import '../models/res/return_reasons.dart';
 
 class ReturnReasonsResource extends BaseResource {
   ReturnReasonsResource(super.client);
 
-  /// @description Retrieves a single Return Reason
-  /// @param {string} id is required
-  /// @param customHeaders
-  /// @return {ResponsePromise<StoreReturnReasonsRes>}
-  Future<StoreReturnReasonsRes?> retrieve(
+  /// Retrieves a single Return Reason
+  Future<Result<StoreReturnReasonsRes, Failure>> retrieve(
       {required String id, Map<String, dynamic>? customHeaders}) async {
     try {
       if (customHeaders != null) {
@@ -21,21 +17,17 @@ class ReturnReasonsResource extends BaseResource {
         '/store/return-reasons/$id',
       );
       if (response.statusCode == 200) {
-        return StoreReturnReasonsRes.fromJson(response.data);
+        return Success(StoreReturnReasonsRes.fromJson(response.data));
       } else {
-        throw response.statusCode!;
+        return Error(Failure.from(response));
       }
-    } catch (error,stackTrace) {
-      log(error.toString(),stackTrace:stackTrace);
-      rethrow;
+    } catch (e) {
+      return Error(Failure.from(e));
     }
   }
 
-  ///Lists return reasons defined in Medusa Admin
-  /// @param customHeaders
-  /// @return {ResponsePromise<StoreReturnReasonsListRes>}
-
-  Future<StoreReturnReasonsListRes?> list(
+  /// Lists return reasons defined in Medusa Admin
+  Future<Result<StoreReturnReasonsListRes, Failure>> list(
       {Map<String, dynamic>? customHeaders}) async {
     try {
       if (customHeaders != null) {
@@ -45,13 +37,12 @@ class ReturnReasonsResource extends BaseResource {
         '/store/return-reasons',
       );
       if (response.statusCode == 200) {
-        return StoreReturnReasonsListRes.fromJson(response.data);
+        return Success(StoreReturnReasonsListRes.fromJson(response.data));
       } else {
-        throw response.statusCode!;
+        return Error(Failure.from(response));
       }
-    } catch (error,stackTrace) {
-      log(error.toString(),stackTrace:stackTrace);
-      rethrow;
+    } catch (e) {
+      return Error(Failure.from(e));
     }
   }
 }

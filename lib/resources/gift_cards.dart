@@ -1,17 +1,12 @@
-import 'dart:developer';
-
+import 'package:medusa_flutter/medusa_flutter.dart';
 import 'package:medusa_flutter/resources/base.dart';
-
-import '../models/res/gift_cards.dart';
+import 'package:multiple_result/multiple_result.dart';
 
 class GiftCardsResource extends BaseResource {
   GiftCardsResource(super.client);
 
-  /// @description Retrieves a single GiftCard
-  /// @param {string} code code of the gift card
-  /// @param customHeaders
-  /// @return {ResponsePromise<StoreGiftCardsRes>}
-  Future<StoreGiftCardsRes?> retrieve(
+  /// Retrieves a single GiftCard
+  Future<Result<StoreGiftCardsRes, Failure>> retrieve(
       {required String code, Map<String, dynamic>? customHeaders}) async {
     try {
       if (customHeaders != null) {
@@ -20,13 +15,12 @@ class GiftCardsResource extends BaseResource {
       final response =
           await client.get('/store/gift-cards/$code');
       if (response.statusCode == 200) {
-        return StoreGiftCardsRes.fromJson(response.data);
+        return Success(StoreGiftCardsRes.fromJson(response.data));
       } else {
-        throw response.statusCode!;
+        return Error(Failure.from(response));
       }
-    } catch (error,stackTrace) {
-      log(error.toString(),stackTrace:stackTrace);
-      rethrow;
+    } catch (e) {
+      return Error(Failure.from(e));
     }
   }
 }

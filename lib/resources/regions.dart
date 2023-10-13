@@ -1,16 +1,12 @@
-import 'dart:developer';
-
+import 'package:medusa_flutter/medusa_flutter.dart';
 import 'package:medusa_flutter/resources/base.dart';
-
-import '../models/res/regions.dart';
+import 'package:multiple_result/multiple_result.dart';
 
 class RegionsResource extends BaseResource {
   RegionsResource(super.client);
 
-  /// @description Retrieves a list of regions
-  /// @param customHeaders
-  /// @return {ResponsePromise<StoreRegionsListRes>}
-  Future<StoreRegionsListRes?> list(
+  /// Retrieves a list of regions
+  Future<Result<StoreRegionsListRes, Failure>> list(
       {Map<String, dynamic>? customHeaders}) async {
     try {
       if (customHeaders != null) {
@@ -19,21 +15,17 @@ class RegionsResource extends BaseResource {
       final response =
           await client.get('/store/regions');
       if (response.statusCode == 200) {
-        return StoreRegionsListRes.fromJson(response.data);
+        return Success(StoreRegionsListRes.fromJson(response.data));
       } else {
-        throw response.statusCode!;
+        return Error(Failure.from(response));
       }
-    } catch (error,stackTrace) {
-      log(error.toString(),stackTrace:stackTrace);
-      rethrow;
+    } catch (e) {
+      return Error(Failure.from(e));
     }
   }
 
-  /// @description Retrieves a region
-  /// @param {string} id is required
-  /// @param customHeaders
-  /// @return {ResponsePromise<StoreRegionsRes>}
-  Future<StoreRegionsRes?> retrieve(
+  /// Retrieves a region
+  Future<Result<StoreRegionsRes, Failure>> retrieve(
       {required String id, Map<String, dynamic>? customHeaders}) async {
     try {
       if (customHeaders != null) {
@@ -43,13 +35,12 @@ class RegionsResource extends BaseResource {
         '/store/regions/$id',
       );
       if (response.statusCode == 200) {
-        return StoreRegionsRes.fromJson(response.data);
+        return Success(StoreRegionsRes.fromJson(response.data));
       } else {
-        throw response.statusCode!;
+        return Error(Failure.from(response));
       }
-    } catch (error,stackTrace) {
-      log(error.toString(),stackTrace:stackTrace);
-      rethrow;
+    } catch (e) {
+      return Error(Failure.from(e));
     }
   }
 }

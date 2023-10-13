@@ -1,14 +1,6 @@
-import 'dart:developer';
-
 import 'package:medusa_flutter/medusa_flutter.dart';
 import 'package:medusa_flutter/resources/base.dart';
 import 'package:multiple_result/multiple_result.dart';
-
-import '../models/req/store_post_cart_req.dart';
-import '../models/req/store_post_carts_cart_payment_session_req.dart';
-import '../models/req/store_post_carts_cart_req.dart';
-import '../models/req/store_post_carts_cart_shipping_method_req.dart';
-import '../models/res/cart.dart';
 
 class CartsResource extends BaseResource {
   CartsResource(super.client);
@@ -93,7 +85,7 @@ class CartsResource extends BaseResource {
   }
 
   /// Removes a discount from cart.
-  Future<StoreCartsRes?> deleteDiscount(
+  Future<Result<StoreCartsRes, Failure>> deleteDiscount(
       {required String cartId, String? code, Map<String, dynamic>? customHeaders}) async {
     try {
       if (customHeaders != null) {
@@ -101,19 +93,18 @@ class CartsResource extends BaseResource {
       }
       final response = await client.delete('/store/carts/$cartId/discounts/$code');
       if (response.statusCode == 200) {
-        return StoreCartsRes.fromJson(response.data);
+        return Success(StoreCartsRes.fromJson(response.data));
       } else {
-        throw response.statusCode!;
+        return Error(Failure.from(response));
       }
-    } catch (error, stackTrace) {
-      log(error.toString(), stackTrace: stackTrace);
-      rethrow;
+    } catch (e) {
+      return Error(Failure.from(e));
     }
   }
 
   /// Removes a payment session from a cart.
   /// Can be useful in case a payment has failed
-  Future<StoreCartsRes?> deletePaymentSession(
+  Future<Result<StoreCartsRes, Failure>> deletePaymentSession(
       {required String cartId, required String providerId, Map<String, dynamic>? customHeaders}) async {
     try {
       if (customHeaders != null) {
@@ -121,18 +112,17 @@ class CartsResource extends BaseResource {
       }
       final response = await client.delete('/store/carts/$cartId/payment-sessions/$providerId');
       if (response.statusCode == 200) {
-        return StoreCartsRes.fromJson(response.data);
+        return Success(StoreCartsRes.fromJson(response.data));
       } else {
-        throw response.statusCode!;
+        return Error(Failure.from(response));
       }
-    } catch (error, stackTrace) {
-      log(error.toString(), stackTrace: stackTrace);
-      rethrow;
+    } catch (e) {
+      return Error(Failure.from(e));
     }
   }
 
   /// Refreshes a payment session.
-  Future<StoreCartsRes?> refreshPaymentSession(
+  Future<Result<StoreCartsRes, Failure>> refreshPaymentSession(
       {required String cartId, required String providerId, Map<String, dynamic>? customHeaders}) async {
     try {
       if (customHeaders != null) {
@@ -140,36 +130,34 @@ class CartsResource extends BaseResource {
       }
       final response = await client.post('/store/carts/$cartId/payment-sessions/$providerId/refresh');
       if (response.statusCode == 200) {
-        return StoreCartsRes.fromJson(response.data);
+        return Success(StoreCartsRes.fromJson(response.data));
       } else {
-        throw response.statusCode!;
+        return Error(Failure.from(response));
       }
-    } catch (error, stackTrace) {
-      log(error.toString(), stackTrace: stackTrace);
-      rethrow;
+    } catch (e) {
+      return Error(Failure.from(e));
     }
   }
 
   /// Retrieves a cart
-  Future<StoreCartsRes?> retrieve({required String cartId, Map<String, dynamic>? customHeaders}) async {
+  Future<Result<StoreCartsRes, Failure>> retrieve({required String cartId, Map<String, dynamic>? customHeaders}) async {
     try {
       if (customHeaders != null) {
         client.options.headers.addAll(customHeaders);
       }
       final response = await client.get('/store/carts/$cartId');
       if (response.statusCode == 200) {
-        return StoreCartsRes.fromJson(response.data);
+        return Success(StoreCartsRes.fromJson(response.data));
       } else {
-        throw response.statusCode!;
+        return Error(Failure.from(response));
       }
-    } catch (error, stackTrace) {
-      log(error.toString(), stackTrace: stackTrace);
-      rethrow;
+    } catch (e) {
+      return Error(Failure.from(e));
     }
   }
 
   /// Refreshes a payment session.
-  Future<StoreCartsRes?> setPaymentSession(
+  Future<Result<StoreCartsRes, Failure>> setPaymentSession(
       {required String cartId,
       required StorePostCartsCartPaymentSessionReq? req,
       Map<String, dynamic>? customHeaders}) async {
@@ -179,18 +167,17 @@ class CartsResource extends BaseResource {
       }
       final response = await client.post('/store/carts/$cartId/payment-sessions', data: req);
       if (response.statusCode == 200) {
-        return StoreCartsRes.fromJson(response.data);
+        return Success(StoreCartsRes.fromJson(response.data));
       } else {
-        throw response.statusCode!;
+        return Error(Failure.from(response));
       }
-    } catch (error) {
-      log(error.toString());
+    } catch (e) {
+      return Error(Failure.from(e));
     }
-    return null;
   }
 
   /// Updates a cart
-  Future<StoreCartsRes?> update(
+  Future<Result<StoreCartsRes, Failure>> update(
       {required String cartId, required StorePostCartsCartReq? req, Map<String, dynamic>? customHeaders}) async {
     try {
       if (customHeaders != null) {
@@ -198,18 +185,17 @@ class CartsResource extends BaseResource {
       }
       final response = await client.post('/store/carts/$cartId', data: req);
       if (response.statusCode == 200) {
-        return StoreCartsRes.fromJson(response.data);
+        return Success(StoreCartsRes.fromJson(response.data));
       } else {
-        throw response.statusCode!;
+        return Error(Failure.from(response));
       }
-    } catch (error, stackTrace) {
-      log(error.toString(), stackTrace: stackTrace);
-      rethrow;
+    } catch (e) {
+      return Error(Failure.from(e));
     }
   }
 
   /// Updates the payment method
-  Future<StoreCartsRes?> updatePaymentSession(
+  Future<Result<StoreCartsRes, Failure>> updatePaymentSession(
       {required String cartId,
       required String providerId,
       required Map<String, dynamic>? req,
@@ -220,13 +206,12 @@ class CartsResource extends BaseResource {
       }
       final response = await client.post('/store/carts/$cartId/payment-sessions/$providerId', data: req);
       if (response.statusCode == 200) {
-        return StoreCartsRes.fromJson(response.data);
+        return Success(StoreCartsRes.fromJson(response.data));
       } else {
-        throw response.statusCode!;
+        return Error(Failure.from(response));
       }
-    } catch (error, stackTrace) {
-      log(error.toString(), stackTrace: stackTrace);
-      rethrow;
+    } catch (e) {
+      return Error(Failure.from(e));
     }
   }
 }

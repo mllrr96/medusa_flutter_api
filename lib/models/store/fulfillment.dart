@@ -26,7 +26,7 @@ class Fulfillment {
   DateTime? createdAt;
   DateTime? updatedAt;
   DateTime? deletedAt;
-  Map<String, dynamic> metadata = <String, dynamic>{};
+  Map<String, dynamic>? metadata;
 
   Fulfillment({
     this.id,
@@ -49,7 +49,7 @@ class Fulfillment {
     this.createdAt,
     this.updatedAt,
     this.deletedAt,
-    this.metadata = const {},
+    this.metadata,
   });
 
   Fulfillment.fromJson(Map<String, dynamic> json) {

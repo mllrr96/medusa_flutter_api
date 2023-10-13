@@ -9,7 +9,7 @@ class ShippingMethodTaxLine {
   num? rate;
   DateTime? createdAt;
   DateTime? updatedAt;
-  Map<String, dynamic> metadata = <String, dynamic>{};
+  Map<String, dynamic>? metadata;
 
   ShippingMethodTaxLine({
     this.id,
@@ -20,7 +20,7 @@ class ShippingMethodTaxLine {
     required this.rate,
     this.createdAt,
     this.updatedAt,
-    this.metadata = const <String, dynamic>{},
+    this.metadata,
   });
 
   ShippingMethodTaxLine.fromJson(Map<String, dynamic> json) {
@@ -32,8 +32,8 @@ class ShippingMethodTaxLine {
     code = json['code'];
     name = json['name'];
     rate = json['rate'];
-    createdAt = DateTime.tryParse(json['created_at'] ?? {});
-    updatedAt = DateTime.tryParse(json['updated_at'] ?? {});
+    createdAt = DateTime.tryParse(json['created_at'] ?? '')?.toLocal();
+    updatedAt = DateTime.tryParse(json['updated_at'] ?? '')?.toLocal();
     metadata = json['metadata'] ?? <String, dynamic>{};
   }
 

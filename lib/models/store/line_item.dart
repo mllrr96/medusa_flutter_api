@@ -48,7 +48,7 @@ class LineItem {
   OrderEdit? orderEdit;
   DateTime? createdAt;
   DateTime? updatedAt;
-  Map<String, dynamic> metadata = <String, dynamic>{};
+  Map<String, dynamic>? metadata;
 
   LineItem({
     this.id,
@@ -91,30 +91,26 @@ class LineItem {
     this.orderEdit,
     this.createdAt,
     this.updatedAt,
-    this.metadata = const <String, dynamic>{},
+    this.metadata,
   });
 
   LineItem.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     cartId = json['cart_id'];
-    cart = json['cart'] != null ? Cart.fromJson(json['cart'] ?? {}) : null;
+    cart = json['cart'] != null ? Cart.fromJson(json['cart']) : null;
     orderId = json['order_id'];
     order = json['order'] != null ? Order.fromJson(json['order']) : null;
     swapId = json['swap_id'];
     swap = json['swap'] != null ? Swap.fromJson(json['swap']) : null;
     claimOrderId = json['claim_order_id'];
-    claimOrder = json['claim_order'] != null
-        ? ClaimOrder.fromJson(json['claim_order'])
-        : null;
+    claimOrder = json['claim_order'] != null ? ClaimOrder.fromJson(json['claim_order']) : null;
     if (json['tax_lines'] != null) {
       taxLines = <LineItemTaxLine>[];
-      json['tax_lines']
-          .forEach((e) => taxLines!.add(LineItemTaxLine.fromJson(e)));
+      json['tax_lines'].forEach((e) => taxLines!.add(LineItemTaxLine.fromJson(e)));
     }
     if (json['adjustments'] != null) {
       adjustments = <LineItemAdjustment>[];
-      json['adjustments']
-          .forEach((e) => adjustments!.add(LineItemAdjustment.fromJson(e)));
+      json['adjustments'].forEach((e) => adjustments!.add(LineItemAdjustment.fromJson(e)));
     }
     title = json['title'];
     description = json['description'];
@@ -126,9 +122,7 @@ class LineItem {
     hasShipping = json['has_shipping'];
     unitPrice = json['unit_price'];
     variantId = json['variant_id'];
-    variant = json['variant'] != null
-        ? ProductVariant.fromJson(json['variant'])
-        : null;
+    variant = json['variant'] != null ? ProductVariant.fromJson(json['variant']) : null;
     quantity = json['quantity'] ?? 0;
     fulfilledQuantity = json['fulfilled_quantity'] ?? 0;
     shippedQuantity = json['shipped_quantity'] ?? 0;
@@ -143,12 +137,10 @@ class LineItem {
     includesTax = json['includes_tax'];
     originalItemId = json['original_item_id'];
     orderEditId = json['order_edit_id'];
-    orderEdit = json['order_edit'] != null
-        ? OrderEdit.fromJson(json['order_edit'])
-        : null;
-    createdAt = DateTime.tryParse(json['created_at'] ?? '');
-    updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
-    metadata = json['metadata'] ?? <String, dynamic>{};
+    orderEdit = json['order_edit'] != null ? OrderEdit.fromJson(json['order_edit']) : null;
+    createdAt = DateTime.tryParse(json['created_at'] ?? '')?.toLocal();
+    updatedAt = DateTime.tryParse(json['updated_at'] ?? '')?.toLocal();
+    metadata = json['metadata'];
   }
 
   Map<String, dynamic> toJson() {

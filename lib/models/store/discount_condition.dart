@@ -19,7 +19,7 @@ class DiscountCondition {
   DateTime? createdAt;
   DateTime? updatedAt;
   DateTime? deletedAt;
-  Map<String, dynamic> metadata = <String, dynamic>{};
+  Map<String, dynamic>? metadata;
 
   DiscountCondition({
     this.id,
@@ -35,7 +35,7 @@ class DiscountCondition {
     this.createdAt,
     this.updatedAt,
     this.deletedAt,
-    this.metadata = const {},
+    this.metadata,
   });
 
   DiscountCondition.fromJson(Map<String, dynamic> json) {
@@ -76,9 +76,9 @@ class DiscountCondition {
       json['customer_groups']
           .forEach((e) => customerGroups!.add(CustomerGroup.fromJson(e)));
     }
-    createdAt = DateTime.tryParse(json['created_at'] ?? '');
-    updatedAt = DateTime.tryParse(json['updated_at'] ?? '');
-    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '');
+    createdAt = DateTime.tryParse(json['created_at'] ?? '')?.toLocal();
+    updatedAt = DateTime.tryParse(json['updated_at'] ?? '')?.toLocal();
+    deletedAt = DateTime.tryParse(json['deleted_at'] ?? '')?.toLocal();
     metadata = json['metadata'];
   }
 
