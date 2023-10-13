@@ -49,24 +49,25 @@ class ProductDetailScreenState extends State<ProductDetailScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (widget.product.thumbnail != null)
+              if (product.thumbnail != null)
                 Expanded(
-                  child: Image.network(
-                    widget.product.thumbnail!,
-                    width: 400,
-                    height: 200,
-                    errorBuilder: (context, error, stack) =>
-                        const Icon(Icons.warning_amber_outlined, color: Colors.amber),
+                  child: Hero(
+                    tag: product.thumbnail!,
+                    child: Image.network(
+                      product.thumbnail!,
+                      errorBuilder: (context, error, stack) =>
+                          const Icon(Icons.warning_amber_outlined, color: Colors.amber),
+                    ),
                   ),
                 ),
-              if (widget.product.thumbnail == null) const Spacer(),
+              if (product.thumbnail == null) const Spacer(),
               Text(
-                widget.product.title!,
+                product.title!,
                 style: Theme.of(context).textTheme.titleLarge,
               ),
-              if (widget.product.subtitle != null)
+              if (product.subtitle != null)
                 Text(
-                  widget.product.subtitle!,
+                  product.subtitle!,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
               const SizedBox(

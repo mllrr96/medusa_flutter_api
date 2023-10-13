@@ -114,11 +114,12 @@ class _ProductItem extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image.network(
-                        product.thumbnail!,
-                        width: 150,
-                        height: 100,
-                        errorBuilder: (context, error, stack) => const Icon(Icons.warning_amber_outlined),
+                      Hero(
+                        tag: product.thumbnail!,
+                        child: Image.network(
+                          product.thumbnail!,
+                          errorBuilder: (context, error, stack) => const Icon(Icons.warning_amber_outlined),
+                        ),
                       ),
                     ],
                   ),
